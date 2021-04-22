@@ -10,9 +10,12 @@ targetUserid = '47370280198'
 user_accs = {
 "anexample12":"andthename",
 "anexample101":"andthename",
-"anexample1089":"yournameis"
+"anexample1089":"yournameis",
+"anexample3331":"ruthere",
+"imdone107":"ruthat",
+"everything45668":"everythinggood"
 }
-user_ids = ["47529367828","47569187561","47402419411"]
+user_ids = ["47529367828","47569187561","47402419411","47554422088","47382181341","47251904696"]
 #---------------
 count = 0
 for fake_username, fake_password in user_accs.items():
