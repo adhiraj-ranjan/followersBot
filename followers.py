@@ -3,8 +3,10 @@ from bs4 import BeautifulSoup as bs
 import re
 from time import sleep
 
-targetUsername = 'aviiiii_07'
-targetUserid = '47370280198'
+#targetUsername = 'aviiiii_07'
+#targetUserid = '47370280198'
+targetusrname = ('userName : ')
+targetUserid = ('userId : ')
 
 # Add fake accounts here
 user_accs = {
@@ -17,6 +19,9 @@ user_accs = {
 }
 user_ids = ["47529367828","47569187561","47402419411","47554422088","47382181341","47251904696"]
 #---------------
+
+
+
 count = 0
 for fake_username, fake_password in user_accs.items():
 	fake_userid = user_ids[count]
@@ -44,9 +49,11 @@ for fake_username, fake_password in user_accs.items():
 			'userID':targetUserid,
 			'userName':targetUsername}
 		response = s.post(f"https://begeni.vip/tools/send-follower/{targetUserid}?formType=send", data=payload)
-		sleep(6)
+		sleep(7)
 		response = s.post(f"https://begeni.vip/tools/send-follower/{targetUserid}?formType=send", data=payload)
-		sleep(6)
+		sleep(7)
+		response = s.post(f"https://begeni.vip/tools/send-follower/{targetUserid}?formType=send", data=payload)
+		sleep(7)
 		if response.status_code == 200:
 			print("Followers sent successful!")
 		else:
