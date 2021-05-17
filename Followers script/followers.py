@@ -9,8 +9,10 @@ import string
 import threading
 from os import system
 
-targetUsername = input("username : ")
-targetUserid = input("userid : ")
+targetUsername = "aviiiii_07"
+targetUserid = "47370280198"
+#targetUsername = input("username : ")
+#targetUserid = input("userid : ")
 
 system("clear")
 # Add fake accounts here
