@@ -137,8 +137,8 @@ def initiate_script(fake_username, fake_password):
 			site = s.get("https://begeni.vip/girisyap")
 			bs_content = str(bs(site.content, "html.parser"))
 			token = re.search('antiForgeryToken=(.*)', bs_content)
-			token = str(token.group(1).removesuffix('";'))
 			print(token)
+			token = str(token.group(1).removesuffix('";'))
 			payload = { 'username':fake_username,'password':fake_password,'userid':fake_userid,'antiForgeryToken':token}
 			f_response = s.post("https://begeni.vip/girisyap", data=payload)
 			new_pass = generate_password(10)
