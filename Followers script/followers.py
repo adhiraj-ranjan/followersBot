@@ -7,40 +7,61 @@ from datetime import datetime
 import json
 import string
 import threading
-from os import system
+from os import system, listdir, chdir
 
-targetUsername = "aviiiii_07"
-targetUserid = "47370280198"
-#targetUsername = input("username : ")
-#targetUserid = input("userid : ")
+chdir('.accounts/')
+
+link = 'https://www.instagram.com/accounts/login/'
+login_url = 'https://www.instagram.com/accounts/login/ajax/'
+
+while True:
+	k = input("\nsend followers to avi? ")
+	if k == "":
+		targetUsername = "aviiiii_07"
+		targetUserid = "47370280198"
+		break
+	elif k == "add":
+		u = input("username : ")
+		p = input("password : ")
+		with open(u, "w+") as f:
+			f.write(p)
+			print(f"{u} added !")
+		continue
+	else:
+		targetUsername = input("username : ")
+		user = "adhiraj_ranjan"
+		passs = "instaisgood"
+		with requests.Session() as r:
+				user_agent = "Mozilla/5.0 (Linux; Android 11; vivo 1907) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.91 Mobile Safari/537.36"				
+				r.headers= {"user-agent":user_agent}
+				r.headers.update({"Referer":link})
+				response = r.get(link)
+				csrf = re.findall(r"csrf_token\":\"(.*?)\"",response.text)[0]
+				time = int(datetime.now().timestamp())
+				payload = { 'username': user, 'enc_password': f'#PWD_INSTAGRAM_BROWSER:0:{time}:{passs}', 'queryParams': {}, 'optIntoOneTap': 'false' }
+				insta_response = r.post (login_url, data=payload, headers={ "User-Agent": user_agent, "X-Requested-With": "XMLHttpRequest", "Referer": "https://www.instagram.com/accounts/login/", "x-csrftoken": csrf })
+				print(insta_response.content)
+				json_id = r.get(f"https://www.instagram.com/{targetUsername}/?__a=1")
+				try:
+					targetUserid = (json.loads(json_id.text))['graphql']['user']['id']
+				except:
+					print("Username entered is incorrect ! ")
+					exit()
+				break
 
 system("clear")
-# Add fake accounts here
 
-user_accs = {
-"adi_tyaraj901": "",
-"amanraj13442": "",
-"ayush_panday4444": "",
-"manav_ujjain": "",
-"yamol30750": "",
-"sanmanrak": "",
-"derof21844": "",
-"ramkovind7099": "",
-"heerasingh7099": "",
-"anaman_chouchan": "",
-"anexample1089": "",
-"peheg31363": "",
-"reverse.otp": "",
-"dosoyos771": "",
-"ahuj.a678": "",
-"anshumankumar909": "",
-"ratralidro": "",
-"andrewfour33": "",
+# fake accounts dictionary
 
-}
+user_accs = {}
 
 #---------------
-
+# Adding usernames to dict
+files_list = listdir()
+for userN in files_list:
+	user_accs[userN] = ""
+	
+# Adding passwords to dict
 for key in user_accs:
 	with open(key, 'r') as f:
 		password = f.read().replace('\n','')
@@ -52,8 +73,6 @@ def generate_password(length):
     result_str = ''.join(random.choice(letters) for i in range(length))
     return result_str
 
-link = 'https://www.instagram.com/accounts/login/'
-login_url = 'https://www.instagram.com/accounts/login/ajax/'
 print("\n")
 message = f"sending followers to {targetUsername}..."
 go = True
@@ -92,7 +111,7 @@ def print_result():
 	if go == True:
 		go = False
 		anim.join()
-		print("\n\n")
+		print('\n\n')
 		
 def initiate_script(fake_username, fake_password):
 	x = str(random.randint(100, 999))
@@ -152,10 +171,8 @@ def initiate_script(fake_username, fake_password):
 				r.close()
 				s.close()
 				return False
-			sleep_time = random.randint(6,10)
+			sleep_time = 30
 			payload = { 'adet':'10','userID':targetUserid,'userName':targetUsername}
-			response = s.post(f"https://begeni.vip/tools/send-follower/{targetUserid}?formType=send", data=payload)
-			sleep(sleep_time)
 			response = s.post(f"https://begeni.vip/tools/send-follower/{targetUserid}?formType=send", data=payload)
 			sleep(sleep_time)
 			response = s.post(f"https://begeni.vip/tools/send-follower/{targetUserid}?formType=send", data=payload)
@@ -193,7 +210,7 @@ def initiate_script(fake_username, fake_password):
 			print_result()
 			print("\nAccount : " + fake_username + f"\033[91m - Error\033[0m\n\033[93mInstagram Response: \033[0m{insta_response.text}\n\033[93mSite Response: \033[0m{f_response.text}\n\033[93mPassword Response: \033[0m{pass_response2.text}\n")
 		r.close()
+
 		
 for fake_username, fake_password in user_accs.items():
-	sc = threading.Thread(target=initiate_script, args=[fake_username, fake_password])
-	sc.start()
+	threading.Thread(target=initiate_script, args=[fake_username, fake_password]).start()
